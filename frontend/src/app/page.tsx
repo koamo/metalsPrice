@@ -15,7 +15,7 @@ export default function Home() {
     const fetchData = async (isInitial = false) => {
       if (!isInitial) setIsRefreshing(true);
       try {
-        const res = await fetch('http://localhost:8000/api/init');
+        const res = await fetch('/api/init');
         const json = await res.json();
         setData(json);
         if (isInitial) setLang(json.lang);

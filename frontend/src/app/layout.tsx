@@ -45,6 +45,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://metalsprice.vercel.app',
   },
+  other: {
+    'google-adsense-account': 'ca-pub-7317136702675678',
+  },
   verification: {
     google: 'EC8lOKr8zi-K2wWyZTU4u-wjF6z537BWptUrhJurm9w',
   },

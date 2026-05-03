@@ -21,6 +21,16 @@ const Calculator: React.FC<CalculatorProps> = ({ lang, prices, rates }) => {
   const OZ_TO_G = 31.1035;
   const DON_TO_G = 3.75;
 
+  const getVatRate = (currentLang: string) => {
+    switch (currentLang) {
+      case 'ko': return 10;
+      case 'ja': return 10;
+      case 'zh': return 13;
+      case 'en': return 8; // US
+      default: return 0;
+    }
+  };
+
   useEffect(() => {
     if (!prices || !rates) return;
 
@@ -42,8 +52,14 @@ const Calculator: React.FC<CalculatorProps> = ({ lang, prices, rates }) => {
       calculatedTotal = (pricePerGram * DON_TO_G) * weight;
     }
 
+    // 살 때 부가세 합산
+    if (type === 'buy') {
+      const vatRate = getVatRate(lang);
+      calculatedTotal *= (1 + vatRate / 100);
+    }
+
     setTotal(calculatedTotal);
-  }, [metal, type, weight, unit, prices, rates, t.currency]);
+  }, [metal, type, weight, unit, prices, rates, t.currency, lang]);
 
   return (
     <div className="glass p-8 w-full max-w-md gold-border">
@@ -105,9 +121,16 @@ const Calculator: React.FC<CalculatorProps> = ({ lang, prices, rates }) => {
         {/* Result */}
         <div className="mt-8 p-4 bg-gold/10 rounded-xl border border-gold/20 text-center">
           <p className="text-sm text-gold/60 mb-1">{t.total}</p>
-          <p className="text-3xl font-bold gold-text">
-            {total.toLocaleString(undefined, { maximumFractionDigits: 0 })} {t.currency}
-          </p>
+          <div className="flex items-center justify-center gap-2">
+            <p className="text-3xl font-bold gold-text">
+              {total.toLocaleString(undefined, { maximumFractionDigits: 0 })} {t.currency}
+            </p>
+            {type === 'buy' && (
+              <span className="text-sm font-medium text-gold/80 self-end pb-1">
+                (VAT {getVatRate(lang)}%)
+              </span>
+            )}
+          </div>
         </div>
       </div>
     </div>

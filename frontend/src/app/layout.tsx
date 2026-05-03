@@ -44,6 +44,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://metalsprice.vercel.app',
   },
+  verification: {
+    google: 'EC8lOKr8zi-K2wWyZTU4u-wjF6z537BWptUrhJurm9w',
+  },
 };
 
 export default function RootLayout({
